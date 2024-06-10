@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matching Pairs</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="bg.css" />
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+  </head>
+  <body id="body" class="background1 glass">
+
+    <div class="glass" id="glass">
+      <div class="game-container">
+        <div id="cardContainer"></div>
+        <div class="controls">
+          <div class="reset-button invisible" id="resetButton">RESET?</div>
+          <div id="timer" class="invisible">TIME: 00:00</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="menuContainer">
+      <div class="title-container spin">
+        <div id="titleSuper">
+          <img src="img/super.png" alt="" />
+        </div>
+        <div id="titleEncuentra">
+          <img src="img/encuentra_las_parejas.png" alt="" />
+        </div>
+      </div>
+      <div class="menu">
+        <div id="menuStartGame">PLAY</div>
+        <div id="menuOptions">OPTIONS</div>
+      </div>
+    </div>
+
+    <div id="options" class="invisible disabled">
+      <div id="optionsCards">CARDS</div>
+      <div id="optionsBackgrounds">ANIMATED BACKGROUNDS</div>
+      <div id="optionsBack">BACK</div>
+    </div>
+
+    <div id="score" class="invisible">
+      <div id="scoreTitle">SCORE</div>
+    </div>
+
+    <div id="start">START</div>
+    <div id="flash" class="flash"></div>
+    <div id="win" class="invisible">YOU WIN</div>
+    <div id="lose" class="invisible">YOU LOSE</div>
+    <div id="combo" class="invisible"></div>
+    <div id="cardSnitch" class="invisible">DEBUG MODE</div>
+    <div id="firstTry" class="invisible">FIRST TRY</div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
