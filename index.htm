@@ -4,16 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Matching Pairs</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="bg.css" />
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="styles/bg.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
   </head>
   <body id="body" class="background1 glass">
+    <div class="volume-controllers">
+      <div class="volume-controller">
+        <input
+          type="range"
+          id="musicVolumeSlider"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+        MUSIC
+      </div>
+      <div class="volume-controller">
+        <input
+          type="range"
+          id="efxVolumeSlider"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+        EFX
+      </div>
+    </div>
 
     <div class="glass" id="glass">
       <div class="game-container">
         <div id="cardContainer"></div>
-        <div class="controls">
+        <div id="gameplayControls" class="controls-gameplay">
           <div class="reset-button invisible" id="resetButton">RESET?</div>
           <div id="timer" class="invisible">TIME: 00:00</div>
         </div>
@@ -36,21 +60,31 @@
     </div>
 
     <div id="options" class="invisible disabled">
+      <div id="optionsTitle">OPTIONS</div>
       <div id="optionsCards">CARDS</div>
       <div id="optionsBackgrounds">ANIMATED BACKGROUNDS</div>
       <div id="optionsBack">BACK</div>
     </div>
 
-    <div id="score" class="invisible">
-      <div id="scoreTitle">SCORE</div>
+    <div id="scoreContainer" class="score-container invisible disabled">
+      <div id="score">
+        <div id="scoreTitle">SCORE</div>
+        <div id="scoreTime">TIME 7000</div>
+        <div id="scoreCombos"></div>
+      </div>
+      <div id="scoreControls" class="score-controls">
+        <div id="playAgainButton" class="reset-button">PLAY AGAIN?</div>
+        <div id="mainMenuButton" class="reset-button">MAIN MENU</div>
+      </div>
     </div>
 
     <div id="start">START</div>
     <div id="flash" class="flash"></div>
+
     <div id="win" class="invisible">YOU WIN</div>
     <div id="lose" class="invisible">YOU LOSE</div>
     <div id="combo" class="invisible"></div>
-    <div id="cardSnitch" class="invisible">DEBUG MODE</div>
+    <div id="cardSnitch">DEBUG MODE</div>
     <div id="firstTry" class="invisible">FIRST TRY</div>
 
     <script src="main.js"></script>

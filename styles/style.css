@@ -28,7 +28,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-
 #cardSnitch {
   top: 100px;
   left: 200px;
@@ -88,7 +87,7 @@ body {
   align-items: center;
 }
 
-#options div{
+#options div {
   font-size: 75px;
   color: var(--color2);
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
@@ -102,8 +101,12 @@ body {
   z-index: 2;
   transition: 0.2s;
 }
+#options #optionsTitle {
+  font-size: 125px;
+  pointer-events: none;
+}
 
-#options div:hover{
+#options div:hover {
   color: #27dbb1;
   transition: 0.2s;
   transform: scale(1.1);
@@ -111,14 +114,13 @@ body {
 }
 
 #score {
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#score div{
+#score div {
   font-size: 75px;
   color: var(--color2);
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
@@ -136,6 +138,7 @@ body {
 #score #scoreTitle {
   font-size: 125px;
 }
+
 
 .title-container {
   top: 10px;
@@ -172,8 +175,9 @@ body {
   transition: background-color 0.001s;
   display: none;
 }
-/* #76a697 */
-#win, #lose {
+
+#win,
+#lose {
   font-size: 175px;
   color: var(--color2);
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
@@ -229,10 +233,28 @@ body {
   /* margin: 20px; */
 }
 
-.controls {
+.volume-controllers{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+
+.controls-gameplay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.score-controls {
+  position: relative;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  z-index: 2;
+}
+
+.score-container {
+  position: absolute;
+  top: 200px;
 }
 
 .card {
@@ -299,10 +321,10 @@ body {
     transform: rotate(1800deg) scale(1);
   }
   95% {
-    transform:  scale(0.8);
+    transform: scale(0.8);
   }
   100% {
-    transform:  scale(1);
+    transform: scale(1);
   }
 }
 
@@ -465,6 +487,7 @@ body::after {
   100% {
     opacity: 0;
     transform: translateY(50px);
+    color: red;
   }
 }
 
