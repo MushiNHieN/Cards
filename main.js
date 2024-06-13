@@ -562,15 +562,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function changeBackground() {
     let backgrounds = [
-      "background1",
-      "background2",
-      "background3",
-      "background4",
-      "background5",
-      "background6",
-      "background7",
-      "background8",
-      "background9",
+      "background-type-1-1",
+      "background-type-1-2",
+      "background-type-1-3",
+      "background-type-1-4",
+      "background-type-1-5",
+      "background-type-2-1",
+      "background-type-2-2",
+      "background-type-2-3",
+      "background-type-2-4",
+      "background-type-2-5",
     ];
 
     while (bodyClassList.length > 0) {
