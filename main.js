@@ -139,11 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const comboScores = [
     { id: 2, name: "GREAT 2 COMBO", score: 2000, audio: greatComboAudio },
     { id: 3, name: "COOL 3 COMBO", score: 3000, audio: coolComboAudio },
-    { id: 4, name: "CRAZY 4 COMBO", score: 4000, audio: crazyComboAudio },
-    { id: 5, name: "MANIAC 5 COMBO", score: 5000, audio: maniacComboAudio },
-    { id: 6, name: "INSANE 6 COMBO", score: 6000, audio: insaneComboAudio },
-    { id: 7, name: "SEER 7 COMBO", score: 7000, audio: seerComboAudio },
-    { id: 8, name: "GODLIKE 8 COMBO", score: 8000, audio: godlikeComboAudio },
+    { id: 4, name: "CRAZY 4 COMBO", score: 4500, audio: crazyComboAudio },
+    { id: 5, name: "MANIAC 5 COMBO", score: 6750, audio: maniacComboAudio },
+    { id: 6, name: "INSANE 6 COMBO", score: 8000, audio: insaneComboAudio },
+    { id: 7, name: "SEER 7 COMBO", score: 9500, audio: seerComboAudio },
+    { id: 8, name: "GODLIKE 8 COMBO", score: 12000, audio: godlikeComboAudio },
   ];
 
   // #region Control
@@ -367,27 +367,27 @@ document.addEventListener("DOMContentLoaded", () => {
       let comboObj = comboScores.find((obj) => obj["id"] === comboCount);
       comboCount >= 2 ? comboArray.push(comboObj) : null;
       console.log(comboArray);
-
-      setTimeout(() => {
-        comboElement.classList.add("invisible");
-        comboElement.textContent = "";
-        comboCount = 0;
-      }, 700);
+      comboCount = 0;
+      // setTimeout(() => {
+      //   comboElement.classList.add("invisible");
+      //   comboElement.textContent = "";
+      //   comboCount = 0;
+      // }, 700);
     }
   }
 
   function calculateScore() {
     let counter = 0;
     let timeScore = seconds * 100;
-    let scoreInterval = setInterval(() => {
+    let scoreTimeInterval = setInterval(() => {
       scoreAudio.play();
 
-      counter = counter + 30;
+      counter = counter + 10;
       scoreTimeElement.textContent = `TIME      ${counter}`;
       if (counter >= timeScore) {
-        clearInterval(scoreInterval);
+        clearInterval(scoreTimeInterval);
       }
-    }, 10);
+    }, 1);
 
     scoreContainer.classList.remove("invisible", "disabled");
 
@@ -399,6 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         comboScoreElement.classList.remove("invisible");
       }, 2500);
+      let scoreComboInterval = setInterval(() => {}, 1);
     });
   }
 
