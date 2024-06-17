@@ -1,0 +1,20 @@
+cartas con diferentes elementos, efectos, daños, etc 
+se selecciona las cartas que contendrá el tablero de juego
+cuando se encuentren parejas, surgirá su efecto en los enemigos o en el juego
+se avanza por las habitaciones habiendo superado encontrado todas las cartas
+se podría hacer un sistema en el que tuvieses que seleccionar, además de cartas con efectos positivos, cartas con efectos negativos sobre el jugador
+dándole más dinamismo y emoción al gameplay.
+
+los combos crearán sinergias entre los tipos de las parejas y cuanto más largo sea el combo más daño hará a los enemigos
+
+la dificultad aumentará a medida que se avance por las habitaciones 
+habrá más "putadas" 
+
+si los bichos te ganan recibirás debuffs, reordenarte tu tablero, cuando le des a una carta se gire otra
+
+de vez en cuando puede aparecer una carta dorada (muy difícil que salga) que hará combinaciones durante x turnos aunque las cartas no sean iguales (todas las cartas son doradas) y hará daño en función de los stats de tu personaje
+lo mismo pero al revés; una carta que te joda durante x turnos (negra por ejemplo, o el joker)
+a medida que matas enemigos consigues oro, que usarás en las tiendas (manos de croupier con guantes blancos flotando, repartirán tres cartas que serán las que puedas comprar)(una perk permanente sería 
+el número de cartas que te vende)
+
+cada boss tendría un tipo diferente de putadas

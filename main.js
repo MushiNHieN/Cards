@@ -81,7 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameplayControls = document.getElementById("gameplayControls");
   const musicVolumeSlider = document.getElementById("musicVolumeSlider");
   const efxVolumeSlider = document.getElementById("efxVolumeSlider");
-
+  const easyButton = document.getElementById("easyButton");
+  const mediumButton = document.getElementById("mediumButton");
+  const hardButton = document.getElementById("hardButton");
+  const mainMenuButton = document.getElementById("mainMenuButton");
   // #region Music
   const gameplayMusic = new Audio("sounds/gameplay_music.mp3");
   gameplayMusic.loop = true;
@@ -159,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let seconds = 91;
   let minutes = 0;
   let comboCount = 0;
+  let flipSpeed = 1000;
 
   glass.classList.add("invisible");
 
@@ -236,6 +240,26 @@ document.addEventListener("DOMContentLoaded", () => {
   menuMusic.play();
 
   // #region Game logic
+
+  easyButton.addEventListener("click", () => {
+    flipSpeed = easyButton.dataset.name;
+    easyButton.style.color = "#27dbb1";
+    mediumButton.style.color = "#76a697";
+    hardButton.style.color = "#76a697";
+  });
+  mediumButton.addEventListener("click", () => {
+    flipSpeed = mediumButton.dataset.name;
+    mediumButton.style.color = "#27dbb1";
+    easyButton.style.color = "#76a697";
+    hardButton.style.color = "#76a697";
+  });
+  hardButton.addEventListener("click", () => {
+    flipSpeed = hardButton.dataset.name;
+    hardButton.style.color = "#27dbb1";
+    mediumButton.style.color = "#76a697";
+    easyButton.style.color = "#76a697";
+  });
+
   function initializeGame() {
     comboArray = [];
     changeBackground();
@@ -549,7 +573,7 @@ document.addEventListener("DOMContentLoaded", () => {
       secondCard.classList.remove("flipped");
       flipSound.cloneNode().play();
       resetBoard();
-    }, 1000);
+    }, flipSpeed);
   }
 
   function flashScreen() {
@@ -607,4 +631,15 @@ document.addEventListener("DOMContentLoaded", () => {
   resetButton.addEventListener("click", resetGame);
   playAgainButton.addEventListener("click", resetGame);
   menuStartGameElement.addEventListener("click", initializeGame);
+});
+
+function openMainMenu() {
+  body.classList.remove("gradient-bg");
+  glass.classList.add("disabled", "invisible");
+  scoreContainer.classList.add("disabled", "invisible");
+  menuElement.classList.remove("invisible", "disabled");
+}
+
+mainMenuButton.addEventListener("click", () => {
+  openMainMenu();
 });
