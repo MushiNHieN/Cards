@@ -64,11 +64,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const startElement = document.getElementById("start");
   const winElement = document.getElementById("win");
   const comboElement = document.getElementById("combo");
-  const menuElement = document.getElementById("menuContainer");
+  const menuContainer = document.getElementById("menuContainer");
   const menuStartGameElement = document.getElementById("menuStartGame");
   const menuOptionsElement = document.getElementById("menuOptions");
   const menuOptionsBackElement = document.getElementById("optionsBack");
+  const optionsBackCards = document.getElementById("optionsBackCards");
   const optionsElement = document.getElementById("options");
+  const optionsCardsMenu = document.getElementById("optionsCardsMenu");
+  const optionsCards = document.getElementById("optionsCards");
+  const cards1Button = document.getElementById("cards1Button");
+  const cards2Button = document.getElementById("cards2Button");
+  const cards3Button = document.getElementById("cards3Button");
+  const cards4Button = document.getElementById("cards4Button");
+  const cards5Button = document.getElementById("cards5Button");
   const firstTryElement = document.getElementById("firstTry");
   const loseElement = document.getElementById("lose");
   const cardsElements = document.querySelectorAll(".card");
@@ -138,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const numberOfCards = 8;
   const baseTime = 500;
   let cardsFolder = "cards1";
-  const availableDecks = ["cards1", "cards2", "cards3"];
+  const availableDecks = ["cards1", "cards2", "cards3", "cards4", "cards5"];
   const comboScores = [
     { id: 2, name: "GREAT 2 COMBO", score: 2000, audio: greatComboAudio },
     { id: 3, name: "COOL 3 COMBO", score: 3000, audio: coolComboAudio },
@@ -261,11 +269,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function initializeGame() {
+    resetGame();
     comboArray = [];
     changeBackground();
     menuMusic.pause();
     gameplayMusic.play();
-    menuElement.classList.add("invisible", "disabled");
+    menuContainer.classList.add("invisible", "disabled");
     const selectedCards = [];
     while (selectedCards.length < numberOfCards) {
       const randomIndex = Math.floor(Math.random() * cards.length);
@@ -344,6 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   menuOptionsBackElement.addEventListener("click", () => {
     closeOptions();
+    console.log("adad");
   });
 
   function startTimer() {
@@ -390,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let comboObj = comboScores.find((obj) => obj["id"] === comboCount);
       comboCount >= 2 ? comboArray.push(comboObj) : null;
-      console.log(comboArray);
+
       comboCount = 0;
       // setTimeout(() => {
       //   comboElement.classList.add("invisible");
@@ -467,7 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.querySelectorAll(".card:not(.flipped)").length === 0) {
       let comboObj = comboScores.find((obj) => obj["id"] === comboCount + 1);
       comboCount >= 2 ? comboArray.push(comboObj) : null;
-      console.log(comboArray);
+
       gameplayMusic.pause();
       applauseSound.play();
       gameOver = true;
@@ -514,6 +524,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resetGame() {
+    const clickSoundClone = clickSound.cloneNode();
+    clickSoundClone.play();
+    clearInterval(timer);
+    startElement.classList.remove("start", "invisible");
+    resetButton.classList.add("invisible");
+    resetButton.textContent = "RESET?";
+    body.classList.remove("gradient-bg");
+    winElement.classList.add("invisible");
+    loseElement.classList.add("invisible");
+    comboElement.classList.add("invisible");
+    scoreContainer.classList.add("invisible", "disabled");
+    glass.classList.remove("disabled");
+    seconds = 90;
+    minutes = 0;
+    timerElement.textContent = "";
+    firstCard = null;
+    secondCard = null;
+    firstAttempt = true;
+    lockBoard = false;
+    gameOver = false;
+    comboCount = 0;
+    comboArray = [];
+    scoreCombos.innerHTML = "";
+  }
+  function playAgain() {
     const clickSoundClone = clickSound.cloneNode();
     clickSoundClone.play();
     clearInterval(timer);
@@ -597,6 +632,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "background-type-2-3",
       "background-type-2-4",
       "background-type-2-5",
+      // "backgroundtype3-1",
+      // "backgroundtype3-2",
+      // "backgroundtype3-3",
     ];
 
     while (bodyClassList.length > 0) {
@@ -610,11 +648,26 @@ document.addEventListener("DOMContentLoaded", () => {
   changeBackground();
 
   // #region Options menu
+  function openMainMenu() {
+    resetGame();
+    menuMusic.play();
+    gameplayMusic.currentTime = 0;
+    body.classList.remove("gradient-bg");
+    glass.classList.add("disabled", "invisible");
+    scoreContainer.classList.add("disabled", "invisible");
+    menuContainer.classList.remove("invisible", "disabled");
+    changeBackground();
+  }
+
+  mainMenuButton.addEventListener("click", () => {
+    openMainMenu();
+  });
+
   function openOptions() {
     menuMusic.pause();
     menuMusic.currentTime = 0;
     optionsMusic.play();
-    menuElement.classList.add("invisible", "disabled");
+    menuContainer.classList.add("invisible", "disabled");
     optionsElement.classList.remove("invisible", "disabled");
   }
 
@@ -622,24 +675,46 @@ document.addEventListener("DOMContentLoaded", () => {
     menuMusic.play();
     optionsMusic.pause();
     optionsMusic.currentTime = 0;
-    menuElement.classList.remove("invisible", "disabled");
+    menuContainer.classList.remove("invisible", "disabled");
     optionsElement.classList.add("invisible", "disabled");
   }
 
-  function openOptionsCards() {}
+  function openOptionsCards() {
+    optionsElement.classList.add("invisible", "disabled");
+    optionsCardsMenu.classList.remove("invisible", "disabled");
+  }
+  function closeOptionsCards() {
+    // optionsElement.classList.add("invisible", "disabled");
+    optionsCardsMenu.classList.add("invisible", "disabled");
+    optionsElement.classList.remove("invisible", "disabled");
+  }
 
-  resetButton.addEventListener("click", resetGame);
-  playAgainButton.addEventListener("click", resetGame);
+  cards1Button.addEventListener("click", () => {
+    cardsFolder = "cards1";
+    console.log("cards1");
+  });
+  cards2Button.addEventListener("click", () => {
+    cardsFolder = "cards2";
+    console.log("cards2");
+  });
+  cards3Button.addEventListener("click", () => {
+    cardsFolder = "cards3";
+    console.log("cards3");
+  });
+  cards4Button.addEventListener("click", () => {
+    cardsFolder = "cards4";
+    console.log("cards4");
+  });
+  cards5Button.addEventListener("click", () => {
+    cardsFolder = "cards5";
+    console.log("cards5");
+  });
+  optionsBackCards.addEventListener("click", () => {
+    closeOptionsCards();
+  });
+
+  resetButton.addEventListener("click", playAgain);
+  playAgainButton.addEventListener("click", playAgain);
   menuStartGameElement.addEventListener("click", initializeGame);
-});
-
-function openMainMenu() {
-  body.classList.remove("gradient-bg");
-  glass.classList.add("disabled", "invisible");
-  scoreContainer.classList.add("disabled", "invisible");
-  menuElement.classList.remove("invisible", "disabled");
-}
-
-mainMenuButton.addEventListener("click", () => {
-  openMainMenu();
+  optionsCards.addEventListener("click", openOptionsCards);
 });
