@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const patata = "PATATA";
   const cards = [
     { name: "C1", img: "C1.png" },
     { name: "D1", img: "D1.png" },
@@ -77,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cards3Button = document.getElementById("cards3Button");
   const cards4Button = document.getElementById("cards4Button");
   const cards5Button = document.getElementById("cards5Button");
+  const chooseCardContainer = document.getElementById("chooseCardContainer");
   const firstTryElement = document.getElementById("firstTry");
   const loseElement = document.getElementById("lose");
   const cardsElements = document.querySelectorAll(".card");
@@ -84,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cardSnitch = document.getElementById("cardSnitch");
   const scoreElement = document.getElementById("score");
   const scoreTimeElement = document.getElementById("scoreTime");
+  const scoreTotalElement = document.getElementById("scoreTotal");
   const scoreControls = document.getElementById("scoreControls");
   const scoreCombos = document.getElementById("scoreCombos");
   const gameplayControls = document.getElementById("gameplayControls");
@@ -92,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const easyButton = document.getElementById("easyButton");
   const mediumButton = document.getElementById("mediumButton");
   const hardButton = document.getElementById("hardButton");
+  const veryHardButton = document.getElementById("veryHardButton");
   const mainMenuButton = document.getElementById("mainMenuButton");
   // #region Music
   const gameplayMusic = new Audio("sounds/gameplay_music.mp3");
@@ -147,6 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const baseTime = 500;
   let cardsFolder = "cards1";
   const availableDecks = ["cards1", "cards2", "cards3", "cards4", "cards5"];
+
   const comboScores = [
     { id: 2, name: "GREAT 2 COMBO", score: 2000, audio: greatComboAudio },
     { id: 3, name: "COOL 3 COMBO", score: 3000, audio: coolComboAudio },
@@ -254,16 +259,26 @@ document.addEventListener("DOMContentLoaded", () => {
     easyButton.style.color = "#27dbb1";
     mediumButton.style.color = "#76a697";
     hardButton.style.color = "#76a697";
+    veryHardButton.style.color = "#76a697";
   });
   mediumButton.addEventListener("click", () => {
     flipSpeed = mediumButton.dataset.name;
     mediumButton.style.color = "#27dbb1";
     easyButton.style.color = "#76a697";
     hardButton.style.color = "#76a697";
+    veryHardButton.style.color = "#76a697";
   });
   hardButton.addEventListener("click", () => {
     flipSpeed = hardButton.dataset.name;
+    veryHardButton.style.color = "#76a697";
     hardButton.style.color = "#27dbb1";
+    mediumButton.style.color = "#76a697";
+    easyButton.style.color = "#76a697";
+  });
+  veryHardButton.addEventListener("click", () => {
+    flipSpeed = veryHardButton.dataset.name;
+    veryHardButton.style.color = "#27dbb1";
+    hardButton.style.color = "#76a697";
     mediumButton.style.color = "#76a697";
     easyButton.style.color = "#76a697";
   });
@@ -411,30 +426,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function calculateScore() {
+    let totalScore = 0;
     let counter = 0;
     let timeScore = seconds * 100;
-    let scoreTimeInterval = setInterval(() => {
-      scoreAudio.play();
-
-      counter = counter + 10;
-      scoreTimeElement.textContent = `TIME      ${counter}`;
-      if (counter >= timeScore) {
-        clearInterval(scoreTimeInterval);
-      }
-    }, 1);
+    totalScore = totalScore + timeScore;
+    scoreTimeElement.textContent = `TIME ${timeScore}`;
 
     scoreContainer.classList.remove("invisible", "disabled");
 
     comboArray.forEach((combo) => {
+      totalScore = totalScore + combo.score;
       const comboScoreElement = document.createElement("div");
       comboScoreElement.textContent = `${combo.name} ${combo.score}`;
       comboScoreElement.classList.add("invisible");
       scoreCombos.appendChild(comboScoreElement);
-      setTimeout(() => {
-        comboScoreElement.classList.remove("invisible");
-      }, 2500);
-      let scoreComboInterval = setInterval(() => {}, 1);
+
+      comboScoreElement.classList.remove("invisible");
     });
+    let scoreInterval = setInterval(() => {
+      scoreAudio.play();
+      counter = counter + 100;
+      scoreTotalElement.textContent = `TOTAL ${counter}`;
+      if (counter >= totalScore) {
+        clearInterval(scoreInterval);
+      }
+    }, 10);
   }
 
   function addCombo() {
@@ -682,33 +698,43 @@ document.addEventListener("DOMContentLoaded", () => {
   function openOptionsCards() {
     optionsElement.classList.add("invisible", "disabled");
     optionsCardsMenu.classList.remove("invisible", "disabled");
+    drawDecks();
   }
   function closeOptionsCards() {
     // optionsElement.classList.add("invisible", "disabled");
     optionsCardsMenu.classList.add("invisible", "disabled");
     optionsElement.classList.remove("invisible", "disabled");
+    chooseCardContainer.childNodes.forEach((child) => {
+      child.remove();
+    });
+    chooseCardContainer.childNodes.forEach((child) => {
+      child.remove();
+    });
+    chooseCardContainer.childNodes.forEach((child) => {
+      child.remove();
+    });
   }
 
-  cards1Button.addEventListener("click", () => {
-    cardsFolder = "cards1";
-    console.log("cards1");
-  });
-  cards2Button.addEventListener("click", () => {
-    cardsFolder = "cards2";
-    console.log("cards2");
-  });
-  cards3Button.addEventListener("click", () => {
-    cardsFolder = "cards3";
-    console.log("cards3");
-  });
-  cards4Button.addEventListener("click", () => {
-    cardsFolder = "cards4";
-    console.log("cards4");
-  });
-  cards5Button.addEventListener("click", () => {
-    cardsFolder = "cards5";
-    console.log("cards5");
-  });
+  // cards1Button.addEventListener("click", () => {
+  //   cardsFolder = "cards1";
+  //   console.log("cards1");
+  // });
+  // cards2Button.addEventListener("click", () => {
+  //   cardsFolder = "cards2";
+  //   console.log("cards2");
+  // });
+  // cards3Button.addEventListener("click", () => {
+  //   cardsFolder = "cards3";
+  //   console.log("cards3");
+  // });
+  // cards4Button.addEventListener("click", () => {
+  //   cardsFolder = "cards4";
+  //   console.log("cards4");
+  // });
+  // cards5Button.addEventListener("click", () => {
+  //   cardsFolder = "cards5";
+  //   console.log("cards5");
+  // });
   optionsBackCards.addEventListener("click", () => {
     closeOptionsCards();
   });
@@ -717,4 +743,49 @@ document.addEventListener("DOMContentLoaded", () => {
   playAgainButton.addEventListener("click", playAgain);
   menuStartGameElement.addEventListener("click", initializeGame);
   optionsCards.addEventListener("click", openOptionsCards);
+
+  function drawDecks() {
+    availableDecks.forEach((folder) => {
+      const cardElement = document.createElement("div");
+      cardElement.classList.add("card");
+      // cardElement.dataset.name = card.name;
+
+      const cardInner = document.createElement("div");
+      cardInner.classList.add("card-inner");
+
+      const cardFront = document.createElement("div");
+      cardFront.classList.add("card-front");
+      cardFront.style.backgroundImage = `url('img/${folder}/${
+        cards[Math.floor(Math.random() * 50)].img
+      }')`;
+
+      const cardBack = document.createElement("div");
+      cardBack.classList.add("card-back");
+      cardBack.style.backgroundImage = `url('img/${folder}/reverse.png')`;
+
+      cardInner.appendChild(cardFront);
+      cardInner.appendChild(cardBack);
+      cardElement.appendChild(cardInner);
+      chooseCardContainer.appendChild(cardElement);
+
+      cardElement.addEventListener("click", () => {
+        const selectedElements = document.querySelectorAll(".selected-deck");
+        selectedElements.forEach((element) => {
+          element.classList.remove("selected-deck");
+        });
+        cardElement.classList.add("selected-deck");
+        cardsFolder = folder;
+      });
+
+      cardElement.addEventListener("mouseover", () => {
+        cardElement.classList.add("flipped");
+      });
+      cardElement.addEventListener("mouseout", () => {
+        cardElement.classList.remove("flipped");
+        cardFront.style.backgroundImage = `url('img/${folder}/${
+          cards[Math.floor(Math.random() * 50)].img
+        }')`;
+      });
+    });
+  }
 });

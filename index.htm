@@ -12,9 +12,10 @@
   </head>
   <body id="body" class="background1 glass">
     <div class="difficulty-controller">
-      <div id="easyButton" data-name="1500">EASY</div>
-      <div id="mediumButton" data-name="1000">MEDIUM</div>
-      <div id="hardButton" data-name="400">HARD</div>
+      <div id="easyButton" data-name="1350">EASY</div>
+      <div id="mediumButton" data-name="800">MEDIUM</div>
+      <div id="hardButton" data-name="350">HARD</div>
+      <div id="veryHardButton" data-name="200">VERY HARD</div>
     </div>
     <div class="volume-controllers">
       <div class="volume-controller">
@@ -74,20 +75,16 @@
     </div>
 
     <div id="optionsCardsMenu" class="invisible disabled">
-      <div id="optionsTitle">OPTIONS</div>
-      <div id="cards1Button">CARDS 1</div>
-      <div id="cards2Button">CARDS 2</div>
-      <div id="cards3Button">CARDS 3</div>
-      <div id="cards4Button">CARDS 4</div>
-      <div id="cards5Button">CARDS 5</div>
+      <div id="chooseCardContainer"></div>
       <div id="optionsBackCards">BACK</div>
     </div>
 
     <div id="scoreContainer" class="score-container invisible disabled">
       <div id="score">
         <div id="scoreTitle">SCORE</div>
-        <div id="scoreTime">TIME 7000</div>
         <div id="scoreCombos"></div>
+        <div id="scoreTime"></div>
+        <div id="scoreTotal"></div>
       </div>
       <div id="scoreControls" class="score-controls">
         <div id="playAgainButton" class="reset-button">PLAY AGAIN?</div>
@@ -101,7 +98,7 @@
     <div id="win" class="invisible">YOU WIN</div>
     <div id="lose" class="invisible">YOU LOSE</div>
     <div id="combo" class="invisible"></div>
-    <div id="cardSnitch" class="invisible">DEBUG MODE</div>
+    <div id="cardSnitch">DEBUG MODE</div>
     <div id="firstTry" class="invisible">FIRST TRY</div>
 
     <script src="main.js"></script>

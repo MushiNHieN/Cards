@@ -135,18 +135,34 @@ body {
   z-index: 2;
   transition: 0.2s;
 }
-#optionsCardsMenu div:hover {
-  color: #27dbb1;
-  transition: 0.2s;
-  transform: scale(1.1);
-  cursor: pointer;
-}
+
 #optionsCardsMenu #optionsTitle {
   font-size: 125px;
   pointer-events: none;
 }
 
+#chooseCardContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 120px);
+  grid-template-rows: repeat(3, 170px);
+  grid-gap: 20px;
+}
+#optionsCardsMenu #optionsBackCards:hover {
+  color: #27dbb1;
+  transition: 0.2s;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.selected-deck {
+  box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00ff,
+    0 0 30px #27dbb1, 0 0 40px #27dbb1, 0 0 55px #27dbb1, 0 0 75px #27dbb1;
+    border-radius: 10px;
+}
+
 #score {
+  position: relative;
+  bottom: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
