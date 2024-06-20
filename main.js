@@ -73,11 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const optionsElement = document.getElementById("options");
   const optionsCardsMenu = document.getElementById("optionsCardsMenu");
   const optionsCards = document.getElementById("optionsCards");
-  const cards1Button = document.getElementById("cards1Button");
-  const cards2Button = document.getElementById("cards2Button");
-  const cards3Button = document.getElementById("cards3Button");
-  const cards4Button = document.getElementById("cards4Button");
-  const cards5Button = document.getElementById("cards5Button");
+
   const chooseCardContainer = document.getElementById("chooseCardContainer");
   const firstTryElement = document.getElementById("firstTry");
   const loseElement = document.getElementById("lose");
@@ -146,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     godlikeComboAudio,
   ];
 
-  // #region Const
+  // #region Var
   const numberOfCards = 8;
   const baseTime = 500;
   let cardsFolder = "cards1";
@@ -171,9 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let cardArray = [];
   let comboArray = [];
   let timer;
-  let loseInterval;
   let seconds = 91;
-  let minutes = 0;
   let comboCount = 0;
   let flipSpeed = 1000;
 
@@ -368,7 +362,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   menuOptionsBackElement.addEventListener("click", () => {
     closeOptions();
-    console.log("adad");
   });
 
   function startTimer() {
@@ -648,9 +641,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "background-type-2-3",
       "background-type-2-4",
       "background-type-2-5",
-      // "backgroundtype3-1",
-      // "backgroundtype3-2",
-      // "backgroundtype3-3",
     ];
 
     while (bodyClassList.length > 0) {
@@ -701,7 +691,6 @@ document.addEventListener("DOMContentLoaded", () => {
     drawDecks();
   }
   function closeOptionsCards() {
-    // optionsElement.classList.add("invisible", "disabled");
     optionsCardsMenu.classList.add("invisible", "disabled");
     optionsElement.classList.remove("invisible", "disabled");
     chooseCardContainer.childNodes.forEach((child) => {
@@ -715,26 +704,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // cards1Button.addEventListener("click", () => {
-  //   cardsFolder = "cards1";
-  //   console.log("cards1");
-  // });
-  // cards2Button.addEventListener("click", () => {
-  //   cardsFolder = "cards2";
-  //   console.log("cards2");
-  // });
-  // cards3Button.addEventListener("click", () => {
-  //   cardsFolder = "cards3";
-  //   console.log("cards3");
-  // });
-  // cards4Button.addEventListener("click", () => {
-  //   cardsFolder = "cards4";
-  //   console.log("cards4");
-  // });
-  // cards5Button.addEventListener("click", () => {
-  //   cardsFolder = "cards5";
-  //   console.log("cards5");
-  // });
   optionsBackCards.addEventListener("click", () => {
     closeOptionsCards();
   });
@@ -779,12 +748,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       cardElement.addEventListener("mouseover", () => {
         cardElement.classList.add("flipped");
+        flipSound.play();
       });
       cardElement.addEventListener("mouseout", () => {
         cardElement.classList.remove("flipped");
         cardFront.style.backgroundImage = `url('img/${folder}/${
           cards[Math.floor(Math.random() * 50)].img
         }')`;
+        flipSound.play();
       });
     });
   }
