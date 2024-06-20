@@ -157,7 +157,7 @@ body {
 .selected-deck {
   box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff00ff,
     0 0 30px #27dbb1, 0 0 40px #27dbb1, 0 0 55px #27dbb1, 0 0 75px #27dbb1;
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 #score {
@@ -167,7 +167,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align:justify;
+  text-align: justify;
 }
 
 #score div {
@@ -645,6 +645,44 @@ body::after {
   right: 300px;
   top: 200px;
   animation: blink 0.2s infinite;
+}
+
+@keyframes closeCircle {
+  0% {
+    clip-path: circle(100%);
+  }
+  100% {
+    clip-path: circle(0%);
+  }
+}
+
+.close-circle {
+  animation: closeCircle 0.5s forwards;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ff0000;
+}
+
+@keyframes openCircle {
+  0% {
+    clip-path: circle(0%);
+  }
+  100% {
+    clip-path: circle(100%);
+  }
+}
+
+.open-circle {
+  animation: openCircle 1s forwards;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ff0000;
 }
 
 .start {

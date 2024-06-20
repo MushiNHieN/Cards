@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   // #region Document elements
+  const html = document.getElementsByTagName("html")[0];
   const body = document.getElementById("body");
   const glass = document.getElementById("glass");
   const container = document.getElementById("cardContainer");
@@ -278,41 +279,45 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function initializeGame() {
-    resetGame();
-    comboArray = [];
-    changeBackground();
-    menuMusic.pause();
-    gameplayMusic.play();
-    menuContainer.classList.add("invisible", "disabled");
-    const selectedCards = [];
-    while (selectedCards.length < numberOfCards) {
-      const randomIndex = Math.floor(Math.random() * cards.length);
-      const card = cards[randomIndex];
-      if (!selectedCards.includes(card)) {
-        selectedCards.push(card);
+    closeCircle();
+    setTimeout(() => {
+      openCircle();
+      resetGame();
+      comboArray = [];
+      changeBackground();
+      menuMusic.pause();
+      gameplayMusic.play();
+      menuContainer.classList.add("invisible", "disabled");
+      const selectedCards = [];
+      while (selectedCards.length < numberOfCards) {
+        const randomIndex = Math.floor(Math.random() * cards.length);
+        const card = cards[randomIndex];
+        if (!selectedCards.includes(card)) {
+          selectedCards.push(card);
+        }
       }
-    }
 
-    cardArray = [...selectedCards, ...selectedCards].sort(
-      () => 0.5 - Math.random()
-    );
-    createBoard();
-    setTimeout(() => {
-      flashScreen();
-    }, 2500);
-    setTimeout(() => {
-      startAnimation();
-      startTimer();
-    }, 2000);
-    setTimeout(() => {
-      gameplayControls.classList.remove("invisible", "disabled");
-      resetButton.classList.remove("invisible");
-      timerElement.classList.remove("invisible");
-      let placedCards = document.querySelectorAll(".card");
-      placedCards.forEach((card) => {
-        card.classList.remove("disabled");
-      });
-    }, 3000);
+      cardArray = [...selectedCards, ...selectedCards].sort(
+        () => 0.5 - Math.random()
+      );
+      createBoard();
+      setTimeout(() => {
+        flashScreen();
+      }, 2500);
+      setTimeout(() => {
+        startAnimation();
+        startTimer();
+      }, 2000);
+      setTimeout(() => {
+        gameplayControls.classList.remove("invisible", "disabled");
+        resetButton.classList.remove("invisible");
+        timerElement.classList.remove("invisible");
+        let placedCards = document.querySelectorAll(".card");
+        placedCards.forEach((card) => {
+          card.classList.remove("disabled");
+        });
+      }, 3000);
+    }, 1000);
   }
 
   function createBoard() {
@@ -652,6 +657,15 @@ document.addEventListener("DOMContentLoaded", () => {
     bodyClassList.add(backgrounds[randomIndex]);
   }
   changeBackground();
+
+  function closeCircle() {
+    html.classList.remove("open-circle");
+    html.classList.add("close-circle");
+  }
+  function openCircle() {
+    html.classList.remove("close-circle");
+    html.classList.add("open-circle");
+  }
 
   // #region Options menu
   function openMainMenu() {
