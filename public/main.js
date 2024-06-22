@@ -1,5 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const patata = "PATATA";
+  fetch("/api/users")
+    .then((response) => response.json())
+    .then((data) => {
+      const userList = document.getElementById("user-list");
+      data.users.forEach((user) => {
+        const li = document.createElement("li");
+        li.textContent = `${user.id}: ${user.name}`;
+        userList.appendChild(li);
+      });
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+
   const cards = [
     { name: "C1", img: "C1.png" },
     { name: "D1", img: "D1.png" },
@@ -669,14 +680,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // #region Options menu
   function openMainMenu() {
-    resetGame();
-    menuMusic.play();
-    gameplayMusic.currentTime = 0;
-    body.classList.remove("gradient-bg");
-    glass.classList.add("disabled", "invisible");
-    scoreContainer.classList.add("disabled", "invisible");
-    menuContainer.classList.remove("invisible", "disabled");
-    changeBackground();
+    closeCircle();
+    setTimeout(() => {
+      openCircle();
+      resetGame();
+      menuMusic.play();
+      gameplayMusic.currentTime = 0;
+      body.classList.remove("gradient-bg");
+      glass.classList.add("disabled", "invisible");
+      scoreContainer.classList.add("disabled", "invisible");
+      menuContainer.classList.remove("invisible", "disabled");
+      changeBackground();
+    }, 1000);
   }
 
   mainMenuButton.addEventListener("click", () => {

@@ -663,7 +663,7 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #ff0000;
+  
 }
 
 @keyframes openCircle {
@@ -682,7 +682,7 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #ff0000;
+  
 }
 
 .start {
