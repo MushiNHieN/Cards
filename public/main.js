@@ -1,16 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/api/users")
-    .then((response) => response.json())
-    .then((data) => {
-      const userList = document.getElementById("user-list");
-      data.users.forEach((user) => {
-        const li = document.createElement("li");
-        li.textContent = `${user.id}: ${user.name}`;
-        userList.appendChild(li);
-      });
-    })
-    .catch((error) => console.error("Error fetching users:", error));
-
   const cards = [
     { name: "C1", img: "C1.png" },
     { name: "D1", img: "D1.png" },
@@ -85,7 +73,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const optionsElement = document.getElementById("options");
   const optionsCardsMenu = document.getElementById("optionsCardsMenu");
   const optionsCards = document.getElementById("optionsCards");
-
+  const optionsBackgrounds = document.getElementById("optionsBackgrounds");
+  const optionsDifficulty = document.getElementById("optionsDifficulty");
+  const difficultyContainer = document.getElementById("difficultyContainer");
+  const optionsBackDifficulty = document.getElementById(
+    "optionsBackDifficulty"
+  );
+  const optionsAnimatedBackgrounds = document.getElementById(
+    "optionsAnimatedBackgrounds"
+  );
+  const menuHighScore = document.getElementById("menuHighScore");
+  const highScoreContainer = document.getElementById("highScoreContainer");
+  const highScoreBack = document.getElementById("highScoreBack");
+  const loginRegisterContainer = document.getElementById(
+    "loginRegisterContainer"
+  );
+  const registerFormContainer = document.getElementById(
+    "registerFormContainer"
+  );
+  const registerForm = document.getElementById("registerForm");
+  const loginFormContainer = document.getElementById("loginFormContainer");
+  const loginForm = document.getElementById("loginForm");
+  const openLoginButton = document.getElementById("openLogin");
+  const openRegisterButton = document.getElementById("openRegister");
+  const loginFormBack = document.getElementById("loginFormBack");
+  const registerFormBack = document.getElementById("registerFormBack");
+  const logoutButton = document.getElementById("logout");
   const chooseCardContainer = document.getElementById("chooseCardContainer");
   const firstTryElement = document.getElementById("firstTry");
   const loseElement = document.getElementById("lose");
@@ -112,6 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
   menuMusic.loop = true;
   const optionsMusic = new Audio("sounds/options.mp3");
   optionsMusic.loop = true;
+  const highScoreMusic = new Audio("sounds/highscore.mp3");
+  highScoreMusic.loop = true;
 
   // #region Efx
   const flipSound = new Audio("sounds/flip.mp3");
@@ -133,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const godlikeComboAudio = new Audio("sounds/godlike.wav");
 
   // #region Music & efx arrays
-  const musicArray = [menuMusic, optionsMusic, gameplayMusic];
+  const musicArray = [menuMusic, optionsMusic, gameplayMusic, highScoreMusic];
   const efxArray = [
     flipSound,
     matchPairSound,
@@ -159,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const baseTime = 500;
   let cardsFolder = "cards1";
   const availableDecks = ["cards1", "cards2", "cards3", "cards4", "cards5"];
-
+  let multiplyScoreFactor = 1;
   const comboScores = [
     { id: 2, name: "GREAT 2 COMBO", score: 2000, audio: greatComboAudio },
     { id: 3, name: "COOL 3 COMBO", score: 3000, audio: coolComboAudio },
@@ -182,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let seconds = 91;
   let comboCount = 0;
   let flipSpeed = 1000;
+  let backgroundBool = true;
 
   glass.classList.add("invisible");
 
@@ -266,6 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mediumButton.style.color = "#76a697";
     hardButton.style.color = "#76a697";
     veryHardButton.style.color = "#76a697";
+    multiplyScoreFactor = 0.75;
   });
   mediumButton.addEventListener("click", () => {
     flipSpeed = mediumButton.dataset.name;
@@ -273,6 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
     easyButton.style.color = "#76a697";
     hardButton.style.color = "#76a697";
     veryHardButton.style.color = "#76a697";
+    multiplyScoreFactor = 1;
   });
   hardButton.addEventListener("click", () => {
     flipSpeed = hardButton.dataset.name;
@@ -280,6 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hardButton.style.color = "#27dbb1";
     mediumButton.style.color = "#76a697";
     easyButton.style.color = "#76a697";
+    multiplyScoreFactor = 1.15;
   });
   veryHardButton.addEventListener("click", () => {
     flipSpeed = veryHardButton.dataset.name;
@@ -287,6 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hardButton.style.color = "#76a697";
     mediumButton.style.color = "#76a697";
     easyButton.style.color = "#76a697";
+    multiplyScoreFactor = 1.25;
   });
 
   function initializeGame() {
@@ -371,6 +391,17 @@ document.addEventListener("DOMContentLoaded", () => {
         flipSoundClone.play();
       }, index * 100);
     });
+    setTimeout(() => {
+      document.querySelectorAll(".card").forEach((card) => {
+        card.classList.add("flipped");
+      });
+    }, 1700);
+
+    setTimeout(() => {
+      document.querySelectorAll(".card").forEach((card) => {
+        card.classList.remove("flipped");
+      });
+    }, 2800);
   }
 
   menuOptionsElement.addEventListener("click", () => {
@@ -381,17 +412,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function startTimer() {
-    // clearInterval(timer);
-    // timer = setInterval(() => {
-    //   seconds++;
-    //   if (seconds === 60) {
-    //     minutes++;
-    //     seconds = 0;
-    //   }
-    //   timerElement.textContent = `Time: ${
-    //     minutes < 10 ? "0" + minutes : minutes
-    //   }:${seconds < 10 ? "0" + seconds : seconds}`;
-    // }, 1000);
     clearInterval(timer);
     timer = setInterval(() => {
       seconds--;
@@ -452,6 +472,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       comboScoreElement.classList.remove("invisible");
     });
+    totalScore = totalScore * multiplyScoreFactor;
+
     let scoreInterval = setInterval(() => {
       scoreAudio.play();
       counter = counter + 100;
@@ -460,8 +482,34 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(scoreInterval);
       }
     }, 10);
+    submitScore(totalScore);
   }
 
+  function submitScore(score) {
+    retrieveUserInfo().then((data) => {
+      if (data) {
+        console.log(data);
+        const userId = data.userId;
+        const timestamp = new Date().toISOString();
+
+        fetch("/api/scores", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, score, timestamp }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Score submitted successfully:", data);
+            // Aquí puedes actualizar la UI para mostrar un mensaje de éxito o similar
+          })
+          .catch((error) => {
+            console.error("Error submitting score:", error);
+          });
+      }
+    });
+  }
   function addCombo() {
     ++comboCount;
     if (comboCount >= 2) {
@@ -664,10 +712,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const randomIndex = Math.floor(Math.random() * backgrounds.length);
-
-    bodyClassList.add(backgrounds[randomIndex]);
+    if (backgroundBool) {
+      bodyClassList.add(backgrounds[randomIndex]);
+    }
   }
+
   changeBackground();
+  optionsBackgrounds.addEventListener("click", () => {
+    if (backgroundBool) {
+      backgroundBool = false;
+      optionsBackgrounds.textContent = "ANIMATED BACKGROUNDS OFF";
+    } else {
+      backgroundBool = true;
+      optionsBackgrounds.textContent = "ANIMATED BACKGROUNDS ON";
+    }
+    console.log(backgroundBool);
+  });
 
   function closeCircle() {
     html.classList.remove("open-circle");
@@ -788,4 +848,176 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  function openHighScores() {
+    menuMusic.pause();
+    menuMusic.currentTime = 0;
+    highScoreMusic.play();
+    menuContainer.classList.add("invisible", "disabled");
+    highScoreContainer.classList.remove("invisible", "disabled");
+  }
+  menuHighScore.addEventListener("click", openHighScores);
+  menuHighScore.addEventListener("mouseover", () => {
+    mouseOverSound.play();
+  });
+  function closeHighScores() {
+    highScoreMusic.pause();
+    highScoreMusic.currentTime = 0;
+    menuMusic.play();
+    menuContainer.classList.remove("invisible", "disabled");
+    highScoreContainer.classList.add("invisible", "disabled");
+  }
+  highScoreBack.addEventListener("click", closeHighScores);
+  highScoreBack.addEventListener("mouseover", () => {
+    mouseOverSound.play();
+  });
+
+  function openDifficulty() {
+    optionsElement.classList.add("invisible", "disabled");
+    difficultyContainer.classList.remove("invisible", "disabled");
+  }
+  optionsDifficulty.addEventListener("click", openDifficulty);
+  optionsDifficulty.addEventListener("mouseover", () => {
+    mouseOverSound.play();
+  });
+  function closeDifficulty() {
+    optionsElement.classList.remove("invisible", "disabled");
+    difficultyContainer.classList.add("invisible", "disabled");
+  }
+  optionsBackDifficulty.addEventListener("click", closeDifficulty);
+
+  // #region Register & login
+
+  function openLogin() {
+    loginRegisterContainer.classList.add("invisible", "disabled");
+    menuContainer.classList.add("invisible", "disabled");
+    loginFormContainer.classList.remove("invisible", "disabled");
+  }
+  openLoginButton.addEventListener("click", openLogin);
+  function closeLogin() {
+    menuContainer.classList.remove("invisible", "disabled");
+    loginFormContainer.classList.add("invisible", "disabled");
+    loginRegisterContainer.classList.remove("invisible", "disabled");
+  }
+  loginFormBack.addEventListener("click", closeLogin);
+  function openRegister() {
+    loginRegisterContainer.classList.add("invisible", "disabled");
+    menuContainer.classList.add("invisible", "disabled");
+    registerFormContainer.classList.remove("invisible", "disabled");
+  }
+  openRegisterButton.addEventListener("click", openRegister);
+  function closeRegister() {
+    menuContainer.classList.remove("invisible", "disabled");
+    registerFormContainer.classList.add("invisible", "disabled");
+    loginRegisterContainer.classList.remove("invisible", "disabled");
+  }
+  registerFormBack.addEventListener("click", closeRegister);
+
+  //#region db connection
+  fetch("/api/scores")
+    .then((response) => response.json())
+    .then((data) => {
+      data.scores.forEach((score) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<i>${score.user_id}</i> - ${score.score} - ${score.timestamp}`;
+        highScoreContainer.appendChild(li);
+      });
+    })
+    .catch((error) => console.error("Error fetching scores:", error));
+
+  // user register
+  document
+    .getElementById("registerForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const registerName = document.getElementById("registerName").value;
+      // const email = document.getElementById("email").value;
+      const registerPassword =
+        document.getElementById("registerPassword").value;
+
+      const data = { registerName, registerPassword };
+
+      fetch("/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            console.log("Error: " + data.error);
+          } else {
+            console.log("User registered with ID: " + data.id);
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+  // user login
+  document
+    .getElementById("loginForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loginName = document.getElementById("loginName").value;
+      const loginPassword = document.getElementById("loginPassword").value;
+      console.log(loginName, loginPassword);
+      const data = { name: loginName, password: loginPassword };
+
+      fetch("/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            console.log("Error: " + data.error);
+          } else {
+            console.log("Login successful");
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+
+  //Retrieve user info
+  async function retrieveUserInfo() {
+    try {
+      const response = await fetch("/profile");
+      const data = await response.json();
+      if (data.error) {
+        console.error("Error:", data.error);
+        return null;
+      } else {
+        return data;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return null;
+    }
+  }
+
+  logoutButton.addEventListener("click", () => {
+    fetch("/logout", {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.message);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 });

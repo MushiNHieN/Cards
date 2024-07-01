@@ -28,6 +28,27 @@ body {
   font-family: Arial, sans-serif;
 }
 
+#scoreList {
+  position: fixed;
+  right: 50px;
+  top: 50px;
+  font-size: 30px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  position: absolute;
+  opacity: 1;
+  user-select: none;
+  overflow: visible;
+  z-index: 2;
+  overflow: visible;
+}
+
 #cardSnitch {
   top: 100px;
   left: 200px;
@@ -160,6 +181,176 @@ body {
   border-radius: 10px;
 }
 
+#highScoreContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#highScoreContainer li {
+  font-size: 75px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  user-select: none;
+  z-index: 2;
+  transition: 0.2s;
+  text-decoration: none;
+  list-style: none;
+}
+#highScoreContainer div {
+  font-size: 75px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  user-select: none;
+  z-index: 2;
+  transition: 0.2s;
+}
+#highScoreContainer div:hover {
+  color: #27dbb1;
+  transition: 0.2s;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+#loginRegisterContainer {
+  width: 200px;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  top: 0;
+  right: 10px;
+  font-size: 40px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  user-select: none;
+
+  transition: 0.2s;
+}
+
+#openLogin,
+#openRegister {
+  cursor: pointer;
+  transition: 0.2s;
+}
+#openLogin:hover, #openRegister:hover{
+  color: #27dbb1;
+  transition: 0.2s;
+}
+
+#loginFormBack, #registerFormBack{
+  font-size: 40px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+#loginFormBack:hover, #registerFormBack:hover{
+  color: #27dbb1;
+  transition: 0.2s;
+}
+
+
+#registerFormContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#loginFormContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#registerFormContainer label,
+#loginFormContainer label {
+  font-size: 20px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  user-select: none;
+
+  transition: 0.2s;
+}
+
+#userNameDisplay {
+  position: fixed;
+  top: 0;
+  right: 900px;
+  font-size: 30px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  user-select: none;
+
+  transition: 0.2s;
+}
+
+#logout {
+  position: fixed;
+  top: 50px;
+  right: 1000px;
+  font-size: 30px;
+  color: var(--color2);
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
+    3px 3px 0 #fff, -3px 0 0 #fff, 3px 0 0 #fff, 0 -3px 0 #fff, 0 3px 0 #fff,
+    5px 5px 7px #000;
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  user-select: none;
+  z-index: 2;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+#logout:hover{
+  color: #27dbb1;
+  transition: 0.2s;
+}
+
 #score {
   position: relative;
   bottom: 10vh;
@@ -284,11 +475,8 @@ body {
 
 .difficulty-controller {
   position: fixed;
-  position: fixed;
-  top: 50px;
-  left: 0px;
-
-  font-size: 25px;
+  text-align: center;
+  font-size: 75px;
   color: var(--color2);
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000, -3px -3px 0 #fff, 3px -3px 0 #fff, -3px 3px 0 #fff,
@@ -300,16 +488,18 @@ body {
   position: fixed;
   opacity: 1;
   user-select: none;
-  overflow: hidden;
+  overflow: visible;
   z-index: 2;
 }
 
 .difficulty-controller div {
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .difficulty-controller div:hover {
   color: #27dbb1;
+  transform: scale(1.1);
   transition: 0.2s;
 }
 
@@ -663,7 +853,6 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  
 }
 
 @keyframes openCircle {
@@ -682,7 +871,6 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  
 }
 
 .start {

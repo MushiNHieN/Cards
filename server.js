@@ -1,37 +1,154 @@
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const express = require("express");
 const app = express();
-const port = 3000;
+const path = require("path");
+const bodyParser = require("body-parser");
+const sqlite3 = require("sqlite3").verbose();
+const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
+const port = 3001;
 
-// Crear y conectar la base de datos SQLite
-const db = new sqlite3.Database(':memory:'); // Usar ':memory:' para una DB en memoria, o un nombre de archivo para una DB persistente
-
-db.serialize(() => {
-    // Crear una tabla
-    db.run("CREATE TABLE users (id INT, name TEXT)");
-
-    // Insertar algunos datos
-    const stmt = db.prepare("INSERT INTO users VALUES (?, ?)");
-    stmt.run(1, "Alice");
-    stmt.run(2, "Bob");
-    stmt.finalize();
+// Conectar a la base de datos SQLite
+let db = new sqlite3.Database("database.sqlite", (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log("Connected to the game database.");
 });
 
-// Configurar el servidor para servir archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
 
-// Endpoint para obtener datos de la base de datos
-app.get('/api/users', (req, res) => {
-    db.all("SELECT * FROM users", [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({ users: rows });
+app.use(express.static(__dirname + "/public"));
+
+// Configurar express-session con SQLite como almacén de sesiones
+app.use(session({
+  store: new SQLiteStore({ db: 'sessions.db' }),
+  secret: 'mySecret', // Cambia esto a una cadena secreta segura
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Usa secure: true si usas HTTPS
+}));
+
+
+// Servir el archivo index.html en la ruta raíz
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public", "index.htm"));
+});
+
+// Ruta para agregar un nuevo puntaje
+app.post("/api/scores", (req, res) => {
+  const { user_id, score, timestamp } = req.body;
+  db.run(
+    "INSERT INTO scores(score, timestamp) VALUES(?, ?)",
+    [user_id, score, timestamp],
+    function (err) {
+      if (err) {
+        return console.log(err.message);
+      }
+      res.json({ message: "Score added successfully", id: this.lastID });
+    }
+  );
+});
+
+// Ruta para obtener los mejores puntajes
+app.get("/api/scores", (req, res) => {
+  db.all(
+    "SELECT * FROM scores ORDER BY score DESC LIMIT 10",
+    [],
+    (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      res.json({ scores: rows });
+    }
+  );
+});
+
+// post usuarios
+app.post("/users", (req, res) => {
+  const { name, password } = req.body;
+
+  // Validar los datos de entrada
+  if (!name || !password) {
+    return res.status(400).json({ error: "Todos los campos son obligatorios" });
+  }
+
+  // Insertar el usuario en la base de datos
+  const query = `INSERT INTO users (name, password) VALUES (?, ?)`;
+  db.run(query, [name, password], function (err) {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: "Error al agregar el usuario" });
+    }
+    // Devolver el ID del nuevo usuario
+    res.status(201).json({ id: this.lastID });
+  });
+});
+
+// Ruta para iniciar sesión
+app.post('/login', (req, res) => {
+  const { name, password } = req.body;
+
+  if (!name || !password) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  const query = `SELECT * FROM users WHERE name = ? AND password = ?`;
+  db.get(query, [name, password], (err, name) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: 'Error al iniciar sesión' });
+    }
+
+    if (name) {
+      // Almacenar el ID del usuario en la sesión
+      req.session.userId = name.id;
+      res.json({ message: 'Inicio de sesión exitoso' });
+    } else {
+      res.status(401).json({ error: 'Credenciales inválidas' });
+    }
+  });
+});
+
+// Ruta para obtener información del usuario logeado
+app.get('/profile', (req, res) => {
+  const userId = req.session.userId; // Obtener el ID de usuario de la sesión
+  if (userId) {
+    // Consultar en la base de datos o en alguna estructura de datos donde tengas almacenada la información del usuario
+    const query = `SELECT * FROM users WHERE id = ?`;
+    db.get(query, [userId], (err, user) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).json({ error: 'Error al obtener información del usuario' });
+      }
+      if (user) {
+        res.json({userId: userId, name: user.name }); // Devolver el nombre del usuario
+      } else {
+        res.status(404).json({ error: 'Usuario no encontrado' });
+      }
     });
+  } else {
+    res.status(401).json({ error: 'Usuario no autenticado' });
+  }
 });
 
+// Ruta para cerrar sesión
+app.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al cerrar sesión' });
+    }
+    res.json({ message: 'Cierre de sesión exitoso' });
+  });
+});
+
+
+
+// Iniciar el servidor
 app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
+  console.log(`Servidor escuchando en http://localhost:${port}`);
+});
+
+const PORT = process.env.PORT || 3004;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

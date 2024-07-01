@@ -12,13 +12,6 @@
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
   </head>
   <body id="body" class="background1 glass">
-    <div class="difficulty-controller">
-      <div id="easyButton" data-name="1350">EASY</div>
-      <div id="mediumButton" data-name="800">MEDIUM</div>
-      <div id="hardButton" data-name="350">HARD</div>
-      <div id="veryHardButton" data-name="200">VERY HARD</div>
-    </div>
-
     <div class="volume-controllers">
       <div class="volume-controller">
         <input
@@ -44,6 +37,8 @@
       </div>
     </div>
 
+    <div id="scoreList"></div>
+
     <div class="glass" id="glass">
       <div class="game-container">
         <div id="cardContainer"></div>
@@ -65,6 +60,7 @@
       </div>
       <div class="menu">
         <div id="menuStartGame">PLAY</div>
+        <div id="menuHighScore">HIGHSCORES</div>
         <div id="menuOptions">OPTIONS</div>
       </div>
     </div>
@@ -72,13 +68,30 @@
     <div id="options" class="invisible disabled">
       <div id="optionsTitle">OPTIONS</div>
       <div id="optionsCards">CARDS</div>
-      <div id="optionsBackgrounds">ANIMATED BACKGROUNDS</div>
+      <div id="optionsBackgrounds">ANIMATED BACKGROUNDS ON</div>
+      <div id="optionsDifficulty">DIFFICULTY</div>
       <div id="optionsBack">BACK</div>
     </div>
 
     <div id="optionsCardsMenu" class="invisible disabled">
       <div id="chooseCardContainer"></div>
       <div id="optionsBackCards">BACK</div>
+    </div>
+
+    <div
+      id="difficultyContainer"
+      class="difficulty-controller invisible disabled"
+    >
+      <div id="easyButton" data-name="1350">EASY</div>
+      <div id="mediumButton" data-name="800">MEDIUM</div>
+      <div id="hardButton" data-name="350">HARD</div>
+      <div id="veryHardButton" data-name="200">VERY HARD</div>
+      <div id="optionsBackDifficulty">BACK</div>
+    </div>
+
+    <div id="highScoreContainer" class="invisible disabled">
+      <div>COMING SOON</div>
+      <div id="highScoreBack">BACK</div>
     </div>
 
     <div id="scoreContainer" class="score-container invisible disabled">
@@ -100,10 +113,49 @@
     <div id="win" class="invisible">YOU WIN</div>
     <div id="lose" class="invisible">YOU LOSE</div>
     <div id="combo" class="invisible"></div>
-    <div id="cardSnitch" class="invisible">DEBUG MODE</div>
+    <div id="cardSnitch" class="invisible disabled">DEBUG MODE</div>
     <div id="firstTry" class="invisible">FIRST TRY</div>
 
-    
+    <div id="loginRegisterContainer" class="invisible disabled">
+      <div id="openLogin">LOGIN</div>
+      <div id="openRegister">REGISTER</div>
+    </div>
+
+    <div id="registerFormContainer" class="invisible disabled">
+      <form method="POST" id="registerForm">
+        <label for="name">Name</label>
+        <input type="text" id="registerName" name="name" required /><br /><br />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="registerPassword"
+          name="password"
+          required
+        /><br /><br />
+        <button type="submit">Register</button>
+      </form>
+      <div id="registerFormBack">BACK</div>
+    </div>
+
+    <div id="loginFormContainer" class="invisible disabled">
+      <form method="POST" id="loginForm">
+        <label for="name">Name</label>
+        <input type="text" id="loginName" name="name" required /><br /><br />
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          name="password"
+          required
+        /><br /><br />
+        <button type="submit">Login</button>
+      </form>
+      <div id="loginFormBack">BACK</div>
+    </div>
+
+    <div id="logout" class="invisible disabled">LOGOUT</div>
+
+    <div id="userNameDisplay"></div>
 
     <script src="main.js"></script>
   </body>
