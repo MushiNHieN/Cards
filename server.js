@@ -36,18 +36,32 @@ app.get("/", (req, res) => {
 
 // Ruta para agregar un nuevo puntaje
 app.post("/api/scores", (req, res) => {
-  const { user_id, score, timestamp } = req.body;
-  db.run(
-    "INSERT INTO scores(score, timestamp) VALUES(?, ?)",
-    [user_id, score, timestamp],
-    function (err) {
-      if (err) {
-        return console.log(err.message);
-      }
-      res.json({ message: "Score added successfully", id: this.lastID });
+  const { id, score, timestamp } = req.body;
+  
+  // Consulta para obtener el nombre del usuario
+  db.get("SELECT name FROM users WHERE id = ?", [id], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
     }
-  );
+    if (!row) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user_name = row.name;
+    // Insertar el puntaje con el nombre del usuario
+    db.run(
+      "INSERT INTO scores(name, score, timestamp) VALUES(?, ?, ?)",
+      [user_name, score, timestamp],
+      function (err) {
+        if (err) {
+          return console.log(err.message);
+        }
+        res.json({ message: "Score added successfully", id: this.lastID });
+      }
+    );
+  });
 });
+
 
 // Ruta para obtener los mejores puntajes
 app.get("/api/scores", (req, res) => {
@@ -65,16 +79,16 @@ app.get("/api/scores", (req, res) => {
 
 // post usuarios
 app.post("/users", (req, res) => {
-  const { name, password } = req.body;
+  const { name, email, password } = req.body;
 
   // Validar los datos de entrada
-  if (!name || !password) {
+  if (!name || !email || !password) {
     return res.status(400).json({ error: "Todos los campos son obligatorios" });
   }
 
   // Insertar el usuario en la base de datos
-  const query = `INSERT INTO users (name, password) VALUES (?, ?)`;
-  db.run(query, [name, password], function (err) {
+  const query = `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`;
+  db.run(query, [name, email, password], function (err) {
     if (err) {
       console.error(err.message);
       return res.status(500).json({ error: "Error al agregar el usuario" });
@@ -86,22 +100,22 @@ app.post("/users", (req, res) => {
 
 // Ruta para iniciar sesión
 app.post('/login', (req, res) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!name || !password) {
+  if (!email ||  !password) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
 
-  const query = `SELECT * FROM users WHERE name = ? AND password = ?`;
-  db.get(query, [name, password], (err, name) => {
+  const query = `SELECT * FROM users WHERE email = ? AND password = ?`;
+  db.get(query, [email, password], (err, email) => {
     if (err) {
       console.error(err.message);
       return res.status(500).json({ error: 'Error al iniciar sesión' });
     }
 
-    if (name) {
+    if (email) {
       // Almacenar el ID del usuario en la sesión
-      req.session.userId = name.id;
+      req.session.userId = email.id;
       res.json({ message: 'Inicio de sesión exitoso' });
     } else {
       res.status(401).json({ error: 'Credenciales inválidas' });
@@ -148,7 +162,7 @@ app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
 
-const PORT = process.env.PORT || 3004;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 3004;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });

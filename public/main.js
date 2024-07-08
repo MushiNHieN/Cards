@@ -744,6 +744,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       openCircle();
       resetGame();
+      menuMusic.currentTime = 0;
       menuMusic.play();
       gameplayMusic.currentTime = 0;
       body.classList.remove("gradient-bg");
@@ -914,6 +915,7 @@ document.addEventListener("DOMContentLoaded", () => {
   registerFormBack.addEventListener("click", closeRegister);
 
   //#region db connection
+  //score retrieve and show
   fetch("/api/scores")
     .then((response) => response.json())
     .then((data) => {
@@ -932,11 +934,15 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
 
       const registerName = document.getElementById("registerName").value;
-      // const email = document.getElementById("email").value;
+      const registerEmail = document.getElementById("registerEmail").value;
       const registerPassword =
         document.getElementById("registerPassword").value;
-
-      const data = { registerName, registerPassword };
+      console.log(registerName, registerEmail, registerPassword);
+      const data = {
+        name: registerName,
+        email: registerEmail,
+        password: registerPassword,
+      };
 
       fetch("/users", {
         method: "POST",
@@ -964,10 +970,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("submit", function (event) {
       event.preventDefault();
 
-      const loginName = document.getElementById("loginName").value;
+      const loginEmail = document.getElementById("loginEmail").value;
       const loginPassword = document.getElementById("loginPassword").value;
-      console.log(loginName, loginPassword);
-      const data = { name: loginName, password: loginPassword };
+      console.log(loginEmail, loginPassword);
+      const data = { email: loginEmail, password: loginPassword };
 
       fetch("/login", {
         method: "POST",
